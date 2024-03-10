@@ -2,6 +2,7 @@ import sade from 'sade';
 import { generateTypes } from './index.js';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { dirname, resolve } from 'node:path';
+import dotenv from 'dotenv';
 
 interface CliOptions {
 	url?: string;
@@ -10,14 +11,12 @@ interface CliOptions {
 	out?: string;
 }
 
+dotenv.config({ path: '.env' });
+
 sade(PKG_NAME, true)
 	.version(PKG_VERSION)
 	.describe('Generate types for the PocketBase JavaScript SDK')
-	.option(
-		'-u, --url',
-		'URL to your hosted pocketbase instance.',
-		'http://127.0.0.1:8090'
-	)
+	.option('-u, --url', 'URL to your hosted pocketbase instance.')
 	.option('-e, --email', 'email for an admin pocketbase user.')
 	.option('-p, --password', 'email for an admin pocketbase user.')
 	.option(
@@ -26,7 +25,7 @@ sade(PKG_NAME, true)
 	)
 	.action(
 		async ({
-			url,
+			url = process.env.POCKETBASE_URL,
 			email = process.env.POCKETBASE_EMAIL,
 			password = process.env.POCKETBASE_PASSWORD,
 			out

@@ -33,6 +33,7 @@
     "pocketbase": "^0.21.0"
   },
   "dependencies": {
+    "dotenv": "^16.4.5",
     "sade": "^1.8.1"
   },
   "devDependencies": {
